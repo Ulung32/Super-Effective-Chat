@@ -2,6 +2,9 @@ package main
 
 import (
 	"fmt"
+	"strings"
+
+	"github.com/agnivade/levenshtein"
 )
 
 func BorderFunction(Pattern string)[] int{
@@ -22,13 +25,14 @@ func BorderFunction(Pattern string)[] int{
 }
 
 func KMP(pattern string, text string) int{
+	pattern = strings.ToLower(pattern)
+	text = strings.ToLower(text)
 	miss := false
 	j := 0
 	border := BorderFunction(pattern)
-	fmt.Println(border)
+	// fmt.Println(border)
 
 	for i := 0; i < len(text); i++{
-		fmt.Println(i, j)
 		if j == len(pattern){
 			return i - j 
 		}else{
@@ -54,10 +58,20 @@ func KMP(pattern string, text string) int{
 	}
 }
 
+func levenshteinDistance (pattern string, text string) float64{
+	pattern = strings.ToLower(pattern)
+	text = strings.ToLower(text)
+	distance := levenshtein.ComputeDistance(text, pattern)
+	percentMatch := float64(len(text) - distance) / float64(len(text)) * 100
+	return percentMatch
+}
+
 func main(){
-	Pattern := "abacab"
-	text := "abacaaabacaaxxxabacabxxx"
+	Pattern := "Apa ibu kota indonsa"
+	text := "Apa ibu kota Indonesia"
+	// text := "abacaaabacaaxxxabacabxxx"
 	// border := BorderFunction(Pattern)
-	index := KMP(Pattern, text)
+	index := KMP(text, Pattern)
 	fmt.Println(index)
+	fmt.Println(levenshteinDistance(Pattern, text))
 }
