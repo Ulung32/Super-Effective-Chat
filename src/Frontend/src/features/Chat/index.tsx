@@ -6,13 +6,13 @@ import MessageWriter from "./components/MessageWriter"
 
 function Chat() {
   return (
-    <div className="w-full h-full flex font-mplus text-lg font-regular">
-      <div className="w-1/5 p-8 bg-black text-slate-100">
+    <div className="w-[100wh] h-[100vh] flex font-mplus font-regular overflow-y-hidden">
+      <div className="w-1/5 bg-black text-slate-100">
         <ListHistory />
         <ListAlgo />
         <Account/>
       </div>
-      <div className="w-4/5 bg-emerald-300">
+      <div className="w-4/5 bg-zinc-900">
         <ListMessage />
         <MessageWriter />
       </div>
