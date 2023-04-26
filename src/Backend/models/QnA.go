@@ -5,3 +5,8 @@ type QnA struct {
 	Question string `bson:"question" json:"question`
 	Answer   string `bson:"answer" json:"answer`
 }
+
+type Result struct {
+	Code    int    `json:"code"`
+	Message string `json:"message"`
+}
