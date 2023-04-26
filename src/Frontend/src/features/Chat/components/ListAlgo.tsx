@@ -13,7 +13,7 @@ function ListAlgo() {
               <div className="ml-4 text-lg font-semibold">KMP</div>
             </div>
           </label>
-          <label htmlFor="kmb" className="w-full px-2 py-3 text-gray-500 bg-zinc-900 rounded-2xl cursor-pointer block peer-checked/kmb:hidden hover:bg-slate-800">
+          <label htmlFor="kmb" className="w-full px-2 py-3 text-gray-500 bg-zinc-950 rounded-2xl cursor-pointer block peer-checked/kmb:hidden hover:bg-slate-800">
             <div className="flex items-center">
               <div className="w-6 h-6 rounded-lg border border-yellow-200 flex items-center justify-center">
               </div>
@@ -31,7 +31,7 @@ function ListAlgo() {
               <div className="ml-4 text-lg font-semibold">BM</div>
             </div>
           </label>
-          <label htmlFor="bm" className="w-full px-2 py-3 text-gray-500 bg-zinc-900 rounded-2xl cursor-pointer block peer-checked/bm:hidden hover:bg-slate-800">
+          <label htmlFor="bm" className="w-full px-2 py-3 text-gray-500 bg-zinc-950 rounded-2xl cursor-pointer block peer-checked/bm:hidden hover:bg-slate-800">
             <div className="flex items-center">
               <div className="w-6 h-6 rounded-lg border border-yellow-200 flex items-center justify-center">
               </div>
