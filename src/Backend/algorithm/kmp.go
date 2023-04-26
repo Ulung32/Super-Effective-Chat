@@ -1,7 +1,6 @@
-package main
+package algorithm
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/agnivade/levenshtein"
@@ -66,12 +65,12 @@ func levenshteinDistance (pattern string, text string) float64{
 	return percentMatch
 }
 
-func main(){
-	Pattern := "Apa ibu kota indonsa"
-	text := "Apa ibu kota Indonesia"
-	// text := "abacaaabacaaxxxabacabxxx"
-	// border := BorderFunction(Pattern)
-	index := KMP(text, Pattern)
-	fmt.Println(index)
-	fmt.Println(levenshteinDistance(Pattern, text))
-}
+// func main(){
+// 	Pattern := "Apa ibu kota indonsa"
+// 	text := "Apa ibu kota Indonesia"
+// 	// text := "abacaaabacaaxxxabacabxxx"
+// 	// border := BorderFunction(Pattern)
+// 	index := KMP(text, Pattern)
+// 	fmt.Println(index)
+// 	fmt.Println(levenshteinDistance(Pattern, text))
+// }
