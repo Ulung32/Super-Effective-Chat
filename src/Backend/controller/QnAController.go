@@ -23,8 +23,8 @@ func CreateQnA(c echo.Context) error {
 	var table = models.MongoCollection("QnA", client)
 
 	_, err := table.InsertOne(ctx, models.QnA{
-		Question: "Tubes apa yang paling ga ngotak",
-		Answer:  "jelas stima dong",
+		Question: "siapa assisten stima paling baik ",
+		Answer:  "yntkts",
 	})
 
 	if err != nil {
