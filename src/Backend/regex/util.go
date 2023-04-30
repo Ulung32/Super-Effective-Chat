@@ -1,7 +1,8 @@
-package regex
+package main
 
 import (
 	"regexp"
+	"fmt"
 )
 
 func isDateQuery(query string) bool {
@@ -11,7 +12,7 @@ func isDateQuery(query string) bool {
 	return match 
 }
 func isMathOprQuery(query string) bool {
-	mathOpr := "\\d([+|-|/|*]*\\d)*"
+	mathOpr := "\\d.*[+\\-*/].*\\d"
 	re := regexp.MustCompile(mathOpr)
     match := re.MatchString(query)
 	return match
@@ -41,7 +42,7 @@ func QueryClassification (query string) int {
 		return 1
 	}
 }
-// func main(){
-// 	query := "8 + 7/8+1 - 8*4"
-// 	fmt.Println(QueryClassification(query))
-// }
+func main(){
+	query := "(1 + (2-3))"
+	fmt.Println(QueryClassification(query))
+}
