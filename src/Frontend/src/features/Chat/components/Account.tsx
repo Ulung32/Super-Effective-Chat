@@ -1,3 +1,4 @@
+import DropDownAccount from "./DropDownAccount"
 
 function Account() {
   return (
@@ -6,7 +7,9 @@ function Account() {
         <div className="w-8 h-8 bg-black rounded-full"/>
         <span className="ml-3">ernfiuer erkjg</span>
       </div>
-      <button>...</button>
+      <DropDownAccount trigger={<button>
+        ...
+      </button>}/>
     </div>
   )
 }

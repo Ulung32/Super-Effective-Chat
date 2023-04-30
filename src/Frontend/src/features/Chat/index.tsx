@@ -6,7 +6,7 @@ import MessageWriter from "./components/MessageWriter"
 
 function Chat() {
   return (
-    <div className="w-[100wh] h-[100vh] flex font-mplus font-regular overflow-y-hidden">
+    <div className="w-[100wh] h-[100vh] flex font-sono font-regular overflow-y-hidden">
       <div className="w-1/5 bg-black text-slate-100">
         <ListHistory />
         <ListAlgo />

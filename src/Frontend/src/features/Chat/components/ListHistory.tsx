@@ -12,10 +12,10 @@ function ListHistory() {
           </span>
         </button>
         <div className="max-h-[50vh] mt-1 overflow-y-scroll scroll">
-            <HistoryItem name="cerj feriobf eriofn erf eriufkrjenf reifher i  h i" id="cerjh"/>
-            <HistoryItem name="cerj feriobf eriofn erf eriufkrjenf reifher i  h i" id="cerjh"/>
-            <HistoryItem name="cerj feriobf eriofn erf eriufkrjenf reifher i  h i" id="cerjh"/>
-            <HistoryItem name="cerj feriobf eriofn erf eriufkrjenf reifher i  h i" id="cerjh"/>
+            <HistoryItem name="Pencarian makanan" id="cerjh"/>
+            <HistoryItem name="Apa itu" id="cerjh"/>
+            <HistoryItem name="Ibukota Indonesia" id="cerjh"/>
+            <HistoryItem name="Kondisi ITB" id="cerjh"/>
             <HistoryItem name="cerj feriobf eriofn erf eriufkrjenf reifher i  h i" id="cerjh"/>
             <HistoryItem name="cerj feriobf eriofn erf eriufkrjenf reifher i  h i" id="cerjh"/>
             <HistoryItem name="cerj feriobf eriofn erf eriufkrjenf reifher i  h i" id="cerjh"/>

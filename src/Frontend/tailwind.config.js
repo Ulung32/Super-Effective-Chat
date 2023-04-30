@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'mplus': ['"M PLUS Rounded 1c"', 'sans-serifs']
+        'sono': ['"Sono"', 'sans-serif']
       }
     },
   },
