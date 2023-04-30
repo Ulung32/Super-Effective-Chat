@@ -6,58 +6,46 @@ import (
 	"github.com/agnivade/levenshtein"
 )
 
-func BorderFunction(Pattern string)[] int{
-	var n int
-	n = len(Pattern)
-	border := make([]int, n)
-    for i, j := 1, 0; i < n; i++ {
-        for j > 0 && Pattern[i] != Pattern[j] {
-            j = border[j-1]
-        }
-        if Pattern[i] == Pattern[j] {
-            j++
-        }
-        border[i] = j
-    }
-
-    return border
+func computeBorderFunction(pattern string) []int {
+	n := len(pattern)
+	borders := make([]int, n)
+	for i, j := 1, 0; i < n; i++ {
+		for j > 0 && pattern[i] != pattern[j] {
+			j = borders[j-1]
+		}
+		if pattern[i] == pattern[j] {
+			j++
+		}
+		borders[i] = j
+	}
+	return borders
 }
 
-func KMP(pattern string, text string) int{
-	pattern = strings.ToLower(pattern)
-	text = strings.ToLower(text)
-	miss := false
-	j := 0
-	border := BorderFunction(pattern)
-	// fmt.Println(border)
-
-	for i := 0; i < len(text); i++{
-		if j == len(pattern){
-			return i - j 
-		}else{
-			if text[i] == pattern[j]{
-				miss = false
-			}else{
-				miss = true
-			}
+// matchString returns true if the given pattern exists in the input string
+func KMP(pattern, text string) int {
+    pattern = strings.ToLower(pattern)
+    text = strings.ToLower(text)
+    // fmt.Println(computeBorderFunction(pattern))
+	n, m := len(text), len(pattern)
+	if m == 0 {
+		return 0
+	}
+	borders := computeBorderFunction(pattern)
+	for i, j := 0, 0; i < n; i++ {
+		for j > 0 && text[i] != pattern[j] {
+			j = borders[j-1]
 		}
-		if miss == true {
-			if j!=0{
-				j = border[j-1]
-			}
-			
-		}else {
-			j = j + 1
+		if text[i] == pattern[j] {
+			j++
+		}
+		if j == m {
+			return i-j+1
 		}
 	}
-	if miss == true {
-		return -1
-	}else{
-		return len(text) - len(pattern)
-	}
+	return -1
 }
 
-func levenshteinDistance (pattern string, text string) float64{
+func LevenshteinDistance (pattern string, text string) float64{
 	pattern = strings.ToLower(pattern)
 	text = strings.ToLower(text)
 	distance := levenshtein.ComputeDistance(text, pattern)

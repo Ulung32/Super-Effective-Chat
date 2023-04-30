@@ -1,7 +1,6 @@
 package regex
 
 import (
-	"fmt"
 	"regexp"
 )
 
@@ -42,7 +41,7 @@ func QueryClassification (query string) int {
 		return 1
 	}
 }
-func main(){
-	query := "8 + 7/8+1 - 8*4"
-	fmt.Println(QueryClassification(query))
-}
+// func main(){
+// 	query := "8 + 7/8+1 - 8*4"
+// 	fmt.Println(QueryClassification(query))
+// }

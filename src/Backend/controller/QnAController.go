@@ -2,11 +2,13 @@ package controller
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 
 	"Backend/models"
+	"Backend/regex"
 
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/bson"
@@ -14,6 +16,7 @@ import (
 
 // Handler
 func CreateQnA(c echo.Context) error {
+	// query := c.QueryParam("query")
 	client := models.MongoConnect()
 	defer client.Disconnect(context.TODO())
 
@@ -33,7 +36,7 @@ func CreateQnA(c echo.Context) error {
 	return c.String(http.StatusOK, "Succesfully created")
 }
 
-func GetQnA(c echo.Context) error{
+func GetQnA(){
 	//mongo connection
 	client := models.MongoConnect()
 	defer client.Disconnect(context.TODO())
@@ -56,9 +59,28 @@ func GetQnA(c echo.Context) error{
 		qnas = append(qnas, qna)
 	}
 
-	// Print the results
-	fmt.Println(qnas)
 
-	return c.JSON(http.StatusOK, qnas)
+	Processor.QnAList = qnas
+}
 
+func GetResults(c echo.Context) error{
+	GetQnA()
+	query := c.QueryParam("query")
+
+	classificationQuery := regex.QueryClassification(query)
+	if(classificationQuery == 1){
+		index, similarity := Processor.QuerySearch("KMP", query)
+		if(similarity > 90){
+			// var result, _ = json.Marshal([]Models.Result{{200, asu}})
+			var result, _ = json.Marshal(models.Result{200, Processor.QnAList[index].Answer})
+			return c.JSON(http.StatusOK, string(result))
+		}else{
+			var result, _ = json.Marshal(models.Result{404, "Tidak ada pertanyaan yang mirip dalam database kami"})
+			return c.JSON(http.StatusOK, string(result))
+		}
+		
+	}else{
+		return c.JSON(http.StatusOK, "Belum bisa gan")
+	}
+	
 }
