@@ -3,6 +3,7 @@ package controller
 import (
 	"Backend/algorithm"
 	"Backend/models"
+	"fmt"
 )
 type QueryProcessor struct {
 	QnAList []models.QnA
@@ -21,7 +22,14 @@ func (p QueryProcessor) QuerySearch(method, query string) (int, float64) {
 	similarity = 0
 	index = -1
 	for i:=0; i<len(p.QnAList); i++{
-		if algorithm.KMP(query, p.QnAList[i].Question) != -1{
+		fmt.Println(query, p.QnAList[i].Question)
+		var result int;
+		if method == "kmp"{
+			result = algorithm.KMP(query, p.QnAList[i].Question)
+		}else{
+			result = algorithm.BoyerMoore(query, p.QnAList[i].Question)
+		}
+		if result != -1{
 			index = i
 			similarity = 100
 			return index, similarity

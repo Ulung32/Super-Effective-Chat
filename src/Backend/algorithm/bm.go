@@ -23,7 +23,7 @@ func checkNextJump(j int, currentChar string, pattern string) int{
 	}
 }
 
-func boyerMoore(text, pattern string) int {
+func BoyerMoore(text, pattern string) int {
 	n := len(text);
 	m := len(pattern);
 
@@ -64,12 +64,12 @@ func boyerMoore(text, pattern string) int {
 	}
 }
 
-func main(){
-	// text := "a pattern matching algorithm"
-	text := "abacaabadcabacabaabb"
-	// pattern := "rithm"
-	pattern := "abacab"
-	fmt.Println("Start")
-	result := boyerMoore(text, pattern)
-	fmt.Println("This is the result: ", result)
-}
+// func main(){
+// 	// text := "a pattern matching algorithm"
+// 	text := "abacaabadcabacabaabb"
+// 	// pattern := "rithm"
+// 	pattern := "abacab"
+// 	fmt.Println("Start")
+// 	result := boyerMoore(text, pattern)
+// 	fmt.Println("This is the result: ", result)
+// }
