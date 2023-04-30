@@ -9,7 +9,7 @@ import (
 func main() {
 	// Echo instance
 	e := echo.New()
-
+	
 	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
@@ -17,8 +17,12 @@ func main() {
 	// controller.Processor.Query = "Apa Mata Kuliah paling seru di semester 4"
 
 	// Routes
-	e.GET("/stimaGPT", controller.CreateQnA)
-	e.GET("/stimaGPT/getResult", controller.GetResults)
+	e.POST("/stimaGPT", controller.CreateQnA)
+	e.GET("/stimaGPT", controller.GetResults)
+	e.DELETE("/stimaGPT/delete/", controller.DelQnA)
+
+	e.POST("/stimaGPT/User", controller.CreateUser)
+	e.GET("/stimaGPT/User", controller.GetUser)
 	
 
 	// Start server

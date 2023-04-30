@@ -1,8 +1,7 @@
-package main
+package regex
 
 import (
 	"regexp"
-	"fmt"
 )
 
 func isDateQuery(query string) bool {
@@ -42,7 +41,7 @@ func QueryClassification (query string) int {
 		return 1
 	}
 }
-func main(){
-	query := "(1 + (2-3))"
-	fmt.Println(QueryClassification(query))
-}
+// func main(){
+// 	query := "(1 + (2-3))"
+// 	fmt.Println(QueryClassification(query))
+// }
