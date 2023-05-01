@@ -1,7 +1,9 @@
 package models
 
+import "go.mongodb.org/mongo-driver/bson/primitive"
+
 type QnA struct {
-	ID       int64  `bson:"id,omitempty" json:"id,omitempty"`
+	ID       primitive.ObjectID  `bson:"_id, omitempty" json:"_id, omitempty"`
 	Question string `bson:"question" json:"question`
 	Answer   string `bson:"answer" json:"answer`
 }
