@@ -1,3 +1,4 @@
+import { Chat } from "@/models"
 import { create } from "zustand"
 
 type AuthState = {
@@ -12,7 +13,7 @@ type AuthState = {
 
 export const useAuthStore = create<AuthState>((set) => ({
     id: "efe",
-    username: "",
+    username: "cuwheriuf",
 
     actions: {
         setId(id){
@@ -28,3 +29,40 @@ export const useAuthStore = create<AuthState>((set) => ({
 export function useAuthAction(){
     return useAuthStore((state) => state.actions)
 }
+
+
+type ChatState = {
+    idHistorySelected: string
+    chats: Chat[]
+    algo: string
+
+    actions: {
+        setIdHistorySelected: (idHistorySelected: string) => void
+        setChats: (chats: Chat[]) => void
+        setAlgo: (algo: string) => void
+    }
+}
+
+export const useChatStore = create<ChatState>((set) => ({
+    idHistorySelected: "",
+    chats: [],
+    algo: "kmp",        
+
+    actions: {
+        setIdHistorySelected(idHistorySelected){
+            set({idHistorySelected})
+        },
+        setChats(chats){
+            set({chats})
+        },
+        setAlgo(algo){
+            set({algo})
+        }
+    }
+}))
+
+
+export function useChatAction(){
+    return useChatStore((state) => state.actions)
+}
+

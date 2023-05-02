@@ -1,34 +1,37 @@
 import * as Dialog from "@radix-ui/react-dialog"
 import { ReactNode } from "react"
-import { QnARequest, createQnA } from "../api"
 import { useForm } from "react-hook-form"
 import Button from "../../../component/Button"
 import { Link } from "react-router-dom"
-import Textbox from "./Textbox"
 import { useMutation } from "@tanstack/react-query"
 import { AiOutlineClose } from "react-icons/ai"
+import { HistoryRequest, createHistory } from "../api"
+import { useAuthStore } from "../../../store"
+import Textbox from "./Textbox"
 
-type AddQuestionDialogProps = {
+type CreateHistoryDialogProps = {
   trigger: ReactNode
 } 
 
-function AddQuestionDialog({trigger}: AddQuestionDialogProps) {
+function CreateHistoryDialog({trigger}: CreateHistoryDialogProps) {
+  const idUser = useAuthStore((state) => state.id)
+
   const {
     formState: { isDirty, isSubmitting },
     handleSubmit,
     register,
-  } = useForm<QnARequest>()
+  } = useForm<HistoryRequest>()
 
   const mutation = useMutation({
-    mutationFn: createQnA
+    mutationFn: createHistory
   })
 
-  const onSubmit = async (req: QnARequest) => {
+  const onSubmit = async (req: HistoryRequest) => {
     try {
       const res = await mutation.mutate(req)
       console.log(res)
     } catch (err) {
-      console.log(err)
+      console.log(err, )
     }
   }
 
@@ -44,7 +47,7 @@ function AddQuestionDialog({trigger}: AddQuestionDialogProps) {
             <div className="w-full max-w-xl p-6 bg-zinc-900 rounded-2xl flex flex-col items-center">
               <div className="w-full flex justify-between text-white">
                 <div className="text-xl font-bold">
-                  Add QnA
+                  Create History
                 </div>
                 <Dialog.Close asChild>
                   <span className="font-bold cursor-pointer">
@@ -54,8 +57,8 @@ function AddQuestionDialog({trigger}: AddQuestionDialogProps) {
               </div>
               
               <form className="w-[400px] max-w-[80%]" onSubmit={handleSubmit(onSubmit)}>
-                <Textbox label="question" className="my-4 p-4 focus:outline-white" name="question" register={register} required={true}/>
-                <Textbox label="answer" className="my-4 focus:outline-white" name="answer" register={register} required={true}/>
+                <Textbox value={idUser} label="question" className="my-4 p-4 focus:outline-white hidden" name="idUser" register={register} required={true}/>
+                <Textbox label="name" className="my-4 focus:outline-white" name="name" register={register} required={true}/>
                 <div className="flex justify-center">
                   <Button label="submit" type="submit" className="bg-yellow-200 mx-4 cursor-pointer" disabled={!isDirty} loading={isSubmitting}/>
                 </div>
@@ -68,4 +71,4 @@ function AddQuestionDialog({trigger}: AddQuestionDialogProps) {
   )
 }
 
-export default AddQuestionDialog
+export default CreateHistoryDialog

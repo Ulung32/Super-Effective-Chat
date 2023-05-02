@@ -2,6 +2,8 @@ import { FiEdit } from "react-icons/fi"
 import { IoTrashBinOutline } from "react-icons/io5"
 import AddQuestionDialog from "./components/AddQuestionDialog"
 import { Link } from "react-router-dom"
+import ConfirmationDialog from "../../component/ConfirmationDialog"
+import { deleteQnA } from "./api"
 
 function Questions() {
   return (
@@ -36,9 +38,16 @@ function Questions() {
             <div className="grow-[2] text-center">eirgfhf weiuhdfe</div>
             <div className="grow-[2] text-center">ewuihf weidewio dewoidj</div>
             <div className="grow text-center">
-              <span className="block w-9 h-9 rounded-xl hover:bg-yellow-200 hover:text-black flex justify-center items-center">
-                <IoTrashBinOutline size={24}/>
-              </span>
+              <ConfirmationDialog 
+                id="1"
+                trigger={
+                  <span className="block w-9 h-9 rounded-xl hover:bg-yellow-200 hover:text-black flex justify-center items-center cursor-pointer">
+                    <IoTrashBinOutline size={24}/>
+                  </span>
+                }
+                onConfirm={deleteQnA}
+                label="Apakah anda yakin untuk menghapus QnA ini"
+              />
             </div>
           </div>
         </div>
