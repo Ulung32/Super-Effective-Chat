@@ -10,6 +10,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func CreateUser(c echo.Context) error {
@@ -46,6 +47,7 @@ func CreateUser(c echo.Context) error {
 	var table = models.MongoCollection("User", client)
 
 	_, errInsert := table.InsertOne(ctx, models.User{
+		ID: primitive.NewObjectID(),
 		UserName : user.UserName,
 		Password:  user.Password,
 	})
