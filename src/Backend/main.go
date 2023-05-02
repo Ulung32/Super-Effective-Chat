@@ -30,7 +30,7 @@ func main() {
 
 	e.POST("/stimaGPT/chat", controller.GetAnswers)
 	// Start server
-	e.Logger.Fatal(e.Start(":1323"))
+	e.Logger.Fatal(e.Start(":5000"))
 }
 
 

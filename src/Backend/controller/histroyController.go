@@ -40,7 +40,7 @@ func CreateHistory(c echo.Context) error{
 	})
 
 	if errInsert != nil {
-		fmt.Println("Error Create User")
+		fmt.Println("Error Create history")
 	}
 	return c.String(http.StatusOK, "Succesfully created")
 }

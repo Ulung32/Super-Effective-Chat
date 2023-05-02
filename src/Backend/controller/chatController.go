@@ -19,6 +19,18 @@ type message struct{
 	HistoryId string
 	Method string
 }
+
+func parseQuery(query string) (string, string) {
+    var x, y string
+    i := strings.Index(query, "pertanyaan") + len("pertanyaan")
+    j := strings.Index(query, "dengan jawaban")
+    if i >= 0 && j >= 0 {
+        x = strings.TrimSpace(query[i:j])
+        y = strings.TrimSpace(query[j+len("dengan jawaban"):])
+    }
+    return x, y
+}
+
 func GetAnswers(c echo.Context) error{
 	GetQnA()
 	
@@ -85,9 +97,86 @@ func GetAnswers(c echo.Context) error{
 		}
 		
 	}else if(classificationQuery == "4"){
-		return c.JSON(http.StatusOK, "Belum bisa gan")
+		question, answer := parseQuery(Message.Query)
+
+		qnacoll := models.MongoCollection("QnA", client)
+
+		_, similarity := Processor.QuerySearch(Message.Method, question)
+
+		if(similarity > 90){
+			_, err := coll.InsertOne(ctx, models.Chat{
+				ID : primitive.NewObjectID(),
+				HistoryId: hisId,
+				Chat : "Pertanyaan serupa sudah ada di database",
+				IsBot: true,
+			})
+			if err != nil {
+				return c.JSON(http.StatusBadRequest, "")
+			}
+			return c.JSON(http.StatusOK, "Pertanyaan serupa sudah ada di database")
+		}else{
+			ctx, cancel := context.WithCancel(context.Background())
+			defer cancel()
+
+			_, errInsert := qnacoll.InsertOne(ctx, models.QnA{
+				ID: primitive.NewObjectID(),
+				Question: question,
+				Answer:  answer,
+			})
+
+			if errInsert != nil {
+				fmt.Println("Error Create QnA")
+			}
+			_, err := coll.InsertOne(ctx, models.Chat{
+				ID : primitive.NewObjectID(),
+				HistoryId: hisId,
+				Chat : "Sukses menambahkan pertanyaan",
+				IsBot: true,
+			})
+			if err != nil {
+				return c.JSON(http.StatusBadRequest, "")
+			}
+			return c.String(http.StatusOK, "Sukses menambahkan pertanyaan")
+		}
+		// return c.JSON(http.StatusOK, "Belum bisa gan")
 	}else if(classificationQuery == "5"){
-		return c.JSON(http.StatusOK, "Belum bisa gan")
+		deletedStr := strings.Replace(Message.Query, "hapus pertanyaan ", "", -1)
+
+		qnacoll := models.MongoCollection("QnA", client)
+		index, similarity := Processor.QuerySearch(Message.Method, deletedStr)
+		if(similarity < 90){
+			_, err := coll.InsertOne(ctx, models.Chat{
+				ID : primitive.NewObjectID(),
+				HistoryId: hisId,
+				Chat : "Tidak ada pertanyaan dalam database",
+				IsBot: true,
+			})
+			if err != nil {
+				return c.JSON(http.StatusBadRequest, "")
+			}
+			return c.JSON(http.StatusOK, "Tidak ada pertanyaan dalam database")
+		}else{
+			filter := bson.M{"_id": Processor.QnAList[index].ID}
+			result, err := qnacoll.DeleteOne(context.Background(), filter)
+			if err != nil {
+				return c.String(http.StatusInternalServerError, "Error deleting document")
+			}
+
+			if result.DeletedCount == 0 {
+				return c.String(http.StatusNotFound, "Document not found")
+			}
+			_, err = coll.InsertOne(ctx, models.Chat{
+				ID : primitive.NewObjectID(),
+				HistoryId: hisId,
+				Chat : "Sukses menghapus pertanyaan",
+				IsBot: true,
+			})
+			if err != nil {
+				return c.JSON(http.StatusBadRequest, "")
+			}
+			// Return a success message
+			return c.String(http.StatusOK, "Sukses menghapus pertanyaan")
+		}
 	}else{
 		_, err := coll.InsertOne(ctx, models.Chat{
 			ID : primitive.NewObjectID(),
