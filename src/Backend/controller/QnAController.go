@@ -29,7 +29,13 @@ func CreateQnA(c echo.Context) error {
 	client := models.MongoConnect()
 	defer client.Disconnect(context.TODO())
 
-	_, similarity := Processor.QuerySearch("KMP", qna.Question)
+	coll := models.MongoCollection("QnA", client)
+	_, err := coll.Find(context.Background(), bson.D{})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_, similarity := Processor.QuerySearch("kmp", qna.Question)
 	if(similarity > 90){
 		// var result, _ = json.Marshal([]Models.Result{{200, asu}})
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Pertanyaan sudah ada di database"})
@@ -39,12 +45,13 @@ func CreateQnA(c echo.Context) error {
 
 		var table = models.MongoCollection("QnA", client)
 
-		_, err := table.InsertOne(ctx, models.QnA{
+		_, errInsert := table.InsertOne(ctx, models.QnA{
+			ID: primitive.NewObjectID(),
 			Question: qna.Question,
 			Answer:  qna.Answer,
 		})
 
-		if err != nil {
+		if errInsert != nil {
 			fmt.Println("Error Create QnA")
 		}
 		return c.String(http.StatusOK, "Succesfully created")
@@ -89,7 +96,7 @@ func GetResults(c echo.Context) error{
 
 
 	classificationQuery := regex.QueryClassification(query)
-	if(classificationQuery == 1){
+	if(classificationQuery == "1"){
 		index, similarity := Processor.QuerySearch("KMP", query)
 		if(similarity > 90){
 			// var result, _ = json.Marshal([]Models.Result{{200, asu}})

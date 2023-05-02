@@ -24,9 +24,13 @@ func main() {
 	e.POST("/stimaGPT/User", controller.CreateUser)
 	e.GET("/stimaGPT/User", controller.GetUser)
 	
+	e.POST("/stimaGPT/history", controller.CreateHistory)
+	e.GET("/stimaGPT/history", controller.GetHistory)
+	e.DELETE("/stimaGPT/history", controller.DeleteHistory)
 
+	e.POST("/stimaGPT/chat", controller.GetAnswers)
 	// Start server
-	e.Logger.Fatal(e.Start(":1323"))
+	e.Logger.Fatal(e.Start(":5000"))
 }
 
 
