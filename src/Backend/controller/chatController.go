@@ -189,3 +189,36 @@ func GetAnswers(c echo.Context) error{
 		return c.JSON(http.StatusOK, classificationQuery)
 	}
 }
+
+func GetChatHistory(c echo.Context) error{
+	hisID := c.QueryParam("HisID")
+
+	client := models.MongoConnect()
+	defer client.Disconnect(context.TODO())
+
+	coll := models.MongoCollection("Chat", client)
+	
+	objID, err := primitive.ObjectIDFromHex(hisID)
+
+	if err != nil {
+		return c.String(http.StatusBadRequest, "Invalid ID")
+	}
+
+	cursor, err := coll.Find(context.Background(), bson.D{})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var ChatHis = make([]models.Chat, 0)
+	defer cursor.Close(context.Background())
+	for cursor.Next(context.Background()) {
+		var tempChat models.Chat
+		if err := cursor.Decode(&tempChat); err != nil {
+			log.Fatal(err)
+		}
+		if(tempChat.HistoryId == objID){
+			ChatHis = append(ChatHis, tempChat)
+		}	
+	}
+	return c.JSON(http.StatusOK, ChatHis)
+}
