@@ -13,11 +13,11 @@ function HistoryItem({ name, id }: HistoryItemProps) {
     const setSelectedId = useChatAction().setIdHistorySelected
 
     return (
-        <div className={clsx("flex justify-start items-center px-2 py-2 rounded-2xl group hover:bg-yellow-200", { "bg-yellow-200": id==selectedId })} onClick={() => setSelectedId(id)}>
-            <span className={clsx("text-white group-hover:text-black", { "text-black" : id==selectedId})}>
+        <div className={clsx("flex justify-start items-center px-2 py-2 rounded-2xl group hover:bg-yellow-200", { "bg-yellow-200 text-black": id==selectedId, "text-white" : id!=selectedId })} onClick={() => setSelectedId(id)}>
+            <span className={clsx("group-hover:text-black", { "text-black" : id==selectedId})}>
                 <HiOutlineChat size="24"/>
             </span>
-            <p className={clsx("max-w-full p-2 mx-2 truncate hover:cursor-pointer text-white group-hover:text-black", { "text-black" : id==selectedId})}>
+            <p className={clsx("max-w-full p-2 mx-2 truncate hover:cursor-pointer group-hover:text-black", { "text-black" : id==selectedId})}>
                 {name}
             </p>
             {

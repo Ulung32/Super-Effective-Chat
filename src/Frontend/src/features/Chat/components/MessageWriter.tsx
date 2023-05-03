@@ -2,24 +2,39 @@ import { BiPaperPlane } from "react-icons/bi"
 import { useState } from "react"
 import { useMutation } from "@tanstack/react-query"
 import { getAnswer, ChatRequest } from "../api"
-import { useChatStore } from "../../../store"
+import { useChatAction, useChatStore } from "../../../store"
 
 function MessageWriter() {
   const [message, setMessage] = useState<string>("")
   const algo = useChatStore((state) => state.algo)
   const idHistory = useChatStore((state) => state.idHistorySelected)
+  const setChats = useChatAction().setChats
+  const chats = useChatStore((state) => state.chats)
 
   const mutation = useMutation({
     mutationFn: getAnswer
   })
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     const data: ChatRequest = {
-      message: message,
+      query: message,
       method: algo,
-      idHistory: idHistory
-    } 
-    const res = mutation.mutate(data)
+      historyId: idHistory
+    }
+    setChats([...chats, {
+      id: "1",
+      idHistory: idHistory,
+      message: message,
+      isBot: false
+    }])
+    const res = await mutation.mutateAsync(data)
+    console.log(res.data);
+    setChats([...chats, {
+      id: "1",
+      idHistory: idHistory,
+      message: res.data,
+      isBot: true
+    }])
   }
 
   return (

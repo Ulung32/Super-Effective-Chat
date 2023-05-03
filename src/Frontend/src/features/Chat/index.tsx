@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { useAuthStore, useChatStore } from "../../store"
 import Account from "./components/Account"
 import ListAlgo from "./components/ListAlgo"
@@ -7,7 +8,12 @@ import MessageWriter from "./components/MessageWriter"
 
 function Chat() {
   const idUser = useAuthStore((state) => state.id)
+  const userName = useAuthStore((state) => state.username)
   const idHistorySelected = useChatStore((state) => state.idHistorySelected)
+
+  useEffect(() => {
+    console.log(idUser, userName)
+  }, [])
 
   return (
     <div className="w-[100wh] h-[100vh] flex font-sono font-regular overflow-y-hidden">

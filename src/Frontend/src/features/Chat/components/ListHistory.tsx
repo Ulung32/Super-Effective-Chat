@@ -35,7 +35,7 @@ function ListHistory({idUSer}: ListHistoryProps) {
         }/>
         <div className="max-h-[50vh] mt-1 overflow-y-scroll scroll">
           {
-            data?.data.map((el: any) => 
+            data?.data?.map((el: any) => 
               <HistoryItem name={el.name} id={el._id}/>)
           }
         </div>

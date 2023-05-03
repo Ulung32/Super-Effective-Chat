@@ -17,8 +17,8 @@ function Button({
     ...props
 }: ButtonProps,) {
   return (
-    <button className={clsx("rounded-2xl p-3", className, disabled && "opacity-40", loading && "bg-white" )} type={type} disabled={disabled || loading} {...props}>{
-        loading ? <span className="animate-spin"><CgSpinner/></span> :
+    <button className={clsx("rounded-2xl min-w-[80px] box-border p-3", className, disabled && "opacity-40", loading && "bg-white" )} type={type} disabled={disabled || loading} {...props}>{
+        loading ? <span className="block flex justify-center items-center animate-spin"><CgSpinner size={24}/></span> :
         label
     }</button>
   )
