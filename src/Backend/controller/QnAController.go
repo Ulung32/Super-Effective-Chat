@@ -2,13 +2,11 @@ package controller
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 
 	"Backend/models"
-	"Backend/regex"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 
@@ -87,30 +85,13 @@ func GetQnA(){
 	Processor.QnAList = qnas
 }
 
-func GetResults(c echo.Context) error{
+func GetListQnA(c echo.Context) error{
 	GetQnA()
-	query := c.QueryParam("query")
-
-	// fmt.Println(query)
-	// fmt.Println(Processor.QnAList)
-
-
-	classificationQuery := regex.QueryClassification(query)
-	if(classificationQuery == "1"){
-		index, similarity := Processor.QuerySearch("KMP", query)
-		if(similarity > 90){
-			// var result, _ = json.Marshal([]Models.Result{{200, asu}})
-			var result, _ = json.Marshal(models.Result{200, Processor.QnAList[index].Answer})
-			return c.JSON(http.StatusOK, string(result))
-		}else{
-			var result, _ = json.Marshal(models.Result{404, "Tidak ada pertanyaan yang mirip dalam database kami"})
-			return c.JSON(http.StatusOK, string(result))
-		}
-		
+	if(Processor.QnAList != nil){
+		return c.JSON(http.StatusOK, Processor.QnAList)
 	}else{
-		return c.JSON(http.StatusOK, "Belum bisa gan")
+		return c.String(http.StatusInternalServerError, "Server error")
 	}
-	
 }
 
 func DelQnA (c echo.Context) error{
