@@ -49,10 +49,12 @@ func CreateQnA(c echo.Context) error {
 			Answer:  qna.Answer,
 		})
 
-		if errInsert != nil {
-			fmt.Println("Error Create QnA")
+		if errInsert == nil {
+			return c.String(http.StatusOK, "Succesfully created")
+		}else{
+			return c.String(http.StatusInternalServerError, "Can't create QnA")
 		}
-		return c.String(http.StatusOK, "Succesfully created")
+		
 	}
 
 	
