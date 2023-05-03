@@ -1,4 +1,4 @@
-import { Chat, History } from "@/models"
+import { Chat, History, QnA } from "@/models"
 import { create } from "zustand"
 
 type AuthState = {
@@ -35,6 +35,7 @@ type ChatState = {
     idHistorySelected: string
     chats: Chat[]
     histories: History[]
+    qnas: QnA[]
     algo: string
 
     actions: {
@@ -42,6 +43,7 @@ type ChatState = {
         setChats: (chats: Chat[]) => void
         setHistories: (histories: History[]) => void
         setAlgo: (algo: string) => void
+        setQnas: (qnas: QnA[]) => void
     }
 }
 
@@ -49,6 +51,7 @@ export const useChatStore = create<ChatState>((set) => ({
     idHistorySelected: "",
     chats: [],
     histories: [],
+    qnas: [],
     algo: "kmp",        
 
     actions: {
@@ -63,7 +66,10 @@ export const useChatStore = create<ChatState>((set) => ({
         },
         setAlgo(algo){
             set({algo})
-        }
+        },
+        setQnas(qnas) {
+            set({qnas})
+        },
     }
 }))
 
