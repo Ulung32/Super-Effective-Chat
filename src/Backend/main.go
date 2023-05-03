@@ -30,6 +30,7 @@ func main() {
 	e.DELETE("/stimaGPT/history", controller.DeleteHistory)
 
 	e.POST("/stimaGPT/chat", controller.GetAnswers)
+	e.GET("/stimaGPT/chat", controller.GetChatHistory)
 	// Start server
 	e.Logger.Fatal(e.Start(":5000"))
 }
