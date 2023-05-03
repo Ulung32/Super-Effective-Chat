@@ -1,3 +1,5 @@
+import clsx from "clsx"
+import { useChatAction, useChatStore } from "../../../store"
 import { HiOutlineChat } from "react-icons/hi"
 import { IoTrashBinOutline } from "react-icons/io5"
 
@@ -7,17 +9,23 @@ type HistoryItemProps = {
 }
 
 function HistoryItem({ name, id }: HistoryItemProps) {
+    const selectedId = useChatStore((state) => state.idHistorySelected)
+    const setSelectedId = useChatAction().setIdHistorySelected
+
     return (
-        <div className="flex justify-between items-center px-2 py-2 rounded-2xl group hover:bg-yellow-200">
-            <span className="text-white group-hover:text-black">
+        <div className={clsx("flex justify-start items-center px-2 py-2 rounded-2xl group hover:bg-yellow-200", { "bg-yellow-200": id==selectedId })} onClick={() => setSelectedId(id)}>
+            <span className={clsx("text-white group-hover:text-black", { "text-black" : id==selectedId})}>
                 <HiOutlineChat size="24"/>
             </span>
-            <p className="max-w-full p-2 mx-2 truncate hover:cursor-pointer text-white group-hover:text-black">
+            <p className={clsx("max-w-full p-2 mx-2 truncate hover:cursor-pointer text-white group-hover:text-black", { "text-black" : id==selectedId})}>
                 {name}
             </p>
-            <button className="group-hover:text-black">
-                <IoTrashBinOutline size="24" />
-            </button>
+            {
+                selectedId == id &&
+                <button className="text-black">
+                    <IoTrashBinOutline size="24" />
+                </button>
+            }
         </div>
     )
 }

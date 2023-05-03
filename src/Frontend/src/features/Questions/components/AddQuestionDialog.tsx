@@ -3,16 +3,18 @@ import { ReactNode } from "react"
 import { QnARequest, createQnA } from "../api"
 import { useForm } from "react-hook-form"
 import Button from "../../../component/Button"
-import { Link } from "react-router-dom"
 import Textbox from "./Textbox"
 import { useMutation } from "@tanstack/react-query"
 import { AiOutlineClose } from "react-icons/ai"
+import { useChatAction, useChatStore } from "../../../store"
 
 type AddQuestionDialogProps = {
   trigger: ReactNode
 } 
 
 function AddQuestionDialog({trigger}: AddQuestionDialogProps) {
+  const qnas = useChatStore((state) => state.qnas)
+  const setQnas = useChatAction().setQnas
   const {
     formState: { isDirty, isSubmitting },
     handleSubmit,
@@ -25,8 +27,12 @@ function AddQuestionDialog({trigger}: AddQuestionDialogProps) {
 
   const onSubmit = async (req: QnARequest) => {
     try {
-      const res = await mutation.mutate(req)
-      console.log(res)
+      const res = await mutation.mutateAsync(req)
+      setQnas([...qnas, {
+        answer: res.data.Answer,
+        question: res.data.Question,
+        id: res.data._id
+      }])
     } catch (err) {
       console.log(err)
     }

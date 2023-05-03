@@ -16,3 +16,9 @@ export type User = {
     username: string,
     password: string
 }
+
+export type QnA = {
+    id: string
+    question: string
+    answer: string
+}

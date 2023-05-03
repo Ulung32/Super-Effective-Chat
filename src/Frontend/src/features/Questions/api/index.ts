@@ -11,7 +11,7 @@ export type QnARequest = {
     answer: string
 }
 
-export const createQnA = (data: QnARequest) => axios.post(`http://localhost:5000/stimaGPT/QnA`, data)
+export const createQnA = (data: QnARequest) => axios.post(`http://localhost:5000/stimaGPT`, data)
 
 export const deleteQnA = (id: string) => axios.delete(`http://localhost:5000/stimaGPT/QnA?id=${id}`)
 

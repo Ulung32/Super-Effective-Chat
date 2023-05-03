@@ -43,16 +43,17 @@ func CreateQnA(c echo.Context) error {
 
 		var table = models.MongoCollection("QnA", client)
 
-		_, errInsert := table.InsertOne(ctx, models.QnA{
+		var newQnA = models.QnA{
 			ID: primitive.NewObjectID(),
 			Question: qna.Question,
 			Answer:  qna.Answer,
-		})
+		}
+		_, errInsert := table.InsertOne(ctx, newQnA)
 
 		if errInsert != nil {
-			fmt.Println("Error Create QnA")
+			return c.String(http.StatusInternalServerError, "Server error")
 		}
-		return c.String(http.StatusOK, "Succesfully created")
+		return c.JSON(http.StatusOK, newQnA)
 	}
 
 	
