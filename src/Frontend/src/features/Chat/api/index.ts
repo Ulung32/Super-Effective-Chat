@@ -7,14 +7,14 @@ export type ChatRequest = {
 }
 
 export type HistoryRequest = {
-    idUser: string,
+    userId: string,
     name: string
 }
 
-export const getHistoryByIdUser = (id: string) => axios.get(`http://localhost:1323/stimaGPT/history?id=${id}`)
+export const getHistoryByIdUser = (id: string) => axios.get(`http://localhost:5000/stimaGPT/history?userID=${id}`)
 
-export const getChatByIdHistory = (id: string) => axios.get(`http://localhost:1323/stimaGPT/histroy?id=${id}`)
+export const getChatByIdHistory = (id: string) => axios.get(`http://localhost:5000/stimaGPT/histroy?id=${id}`)
 
-export const getAnswer = (data: ChatRequest) => axios.post('http://localhost:1323/stimaGPT/chat', data)
+export const getAnswer = (data: ChatRequest) => axios.post('http://localhost:5000/stimaGPT/chat', data)
 
-export const createHistory = (data: HistoryRequest) => axios.post('http://localhost:1323/stimaGPT/history', data)
+export const createHistory = (data: HistoryRequest) => axios.post('http://localhost:5000/stimaGPT/history', data)

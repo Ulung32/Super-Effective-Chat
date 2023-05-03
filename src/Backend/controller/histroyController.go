@@ -12,14 +12,21 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+type history struct{
+	ID primitive.ObjectID
+	UserId string
+	Name string
+}
+
+
 func CreateHistory(c echo.Context) error{
-	history := new(models.History)
+	History := new(history)
 	
-	if err := c.Bind(history); err != nil {
+	if err := c.Bind(History); err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid request body"})
 	}
 
-	fmt.Println(history)
+	fmt.Println(History)
 	client := models.MongoConnect()
 	defer client.Disconnect(context.TODO())
 
@@ -32,17 +39,20 @@ func CreateHistory(c echo.Context) error{
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	// var table = models.MongoCollection("User", client)
+	usId, err := primitive.ObjectIDFromHex(History.UserId)
 
-	_, errInsert := coll.InsertOne(ctx, models.History{
-		UserId:  history.UserId,
-		Nama : history.Nama,
-	})
+	// var table = models.MongoCollection("User", client)
+	var newHistory = models.History{
+		ID: primitive.NewObjectID(),
+		UserId:  usId,
+		Nama : History.Name,
+	}
+	_, errInsert := coll.InsertOne(ctx, newHistory)
 
 	if errInsert != nil {
-		fmt.Println("Error Create history")
+		return c.String(http.StatusInternalServerError, "Server Error")
 	}
-	return c.String(http.StatusOK, "Succesfully created")
+	return c.JSON(http.StatusOK, newHistory)
 }
 
 func DeleteHistory(c echo.Context) error{
@@ -96,16 +106,16 @@ func GetHistory (c echo.Context) error{
 	}	
 	
 	defer cursor.Close(context.Background())
+	var listHistory []models.History
 	for cursor.Next(context.Background()) {
 		var hisTemp models.History
 		if err := cursor.Decode(&hisTemp); err != nil {
-			// fmt.Println(hisTemp.UserId)
 			log.Fatal(err)
 		}
-		fmt.Println(hisTemp)
 		if(hisTemp.UserId == objID){
-			return c.JSON(http.StatusAccepted, hisTemp)
+			fmt.Println(hisTemp)
+			listHistory = append(listHistory, hisTemp)
 		}
 	}
-	return c.JSON(http.StatusBadRequest, map[string]string{"error": "history tidak ditemukan"})
+	return c.JSON(http.StatusAccepted, listHistory)
 }

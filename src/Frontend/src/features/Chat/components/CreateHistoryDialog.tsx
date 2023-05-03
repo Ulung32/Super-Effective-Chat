@@ -2,12 +2,12 @@ import * as Dialog from "@radix-ui/react-dialog"
 import { ReactNode } from "react"
 import { useForm } from "react-hook-form"
 import Button from "../../../component/Button"
-import { Link } from "react-router-dom"
 import { useMutation } from "@tanstack/react-query"
 import { AiOutlineClose } from "react-icons/ai"
 import { HistoryRequest, createHistory } from "../api"
-import { useAuthStore } from "../../../store"
+import { useAuthStore, useChatAction, useChatStore } from "../../../store"
 import Textbox from "./Textbox"
+import { History } from "@/models"
 
 type CreateHistoryDialogProps = {
   trigger: ReactNode
@@ -15,12 +15,19 @@ type CreateHistoryDialogProps = {
 
 function CreateHistoryDialog({trigger}: CreateHistoryDialogProps) {
   const idUser = useAuthStore((state) => state.id)
+  const histories = useChatStore((state) => state.histories)
+  const setHistories = useChatAction().setHistories
 
   const {
     formState: { isDirty, isSubmitting },
     handleSubmit,
     register,
-  } = useForm<HistoryRequest>()
+  } = useForm<HistoryRequest>({
+    defaultValues: {
+        userId: idUser,
+        name: ""
+    }
+  })
 
   const mutation = useMutation({
     mutationFn: createHistory
@@ -28,10 +35,15 @@ function CreateHistoryDialog({trigger}: CreateHistoryDialogProps) {
 
   const onSubmit = async (req: HistoryRequest) => {
     try {
-      const res = await mutation.mutate(req)
-      console.log(res)
+      const res = await mutation.mutateAsync(req)
+      const historyTemp: History = {
+        name: res.data.name,
+        idUser: res.data.userid,
+        id: res.data._id
+      }
+      setHistories([...histories, historyTemp])
     } catch (err) {
-      console.log(err, )
+      console.log(err)
     }
   }
 
@@ -57,7 +69,7 @@ function CreateHistoryDialog({trigger}: CreateHistoryDialogProps) {
               </div>
               
               <form className="w-[400px] max-w-[80%]" onSubmit={handleSubmit(onSubmit)}>
-                <Textbox value={idUser} label="question" className="my-4 p-4 focus:outline-white hidden" name="idUser" register={register} required={true}/>
+                <Textbox label="id-user" className="my-4 p-4 focus:outline-white hidden" name="userId" register={register} required={true}/>
                 <Textbox label="name" className="my-4 focus:outline-white" name="name" register={register} required={true}/>
                 <div className="flex justify-center">
                   <Button label="submit" type="submit" className="bg-yellow-200 mx-4 cursor-pointer" disabled={!isDirty} loading={isSubmitting}/>

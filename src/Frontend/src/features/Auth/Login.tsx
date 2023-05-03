@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Textbox from "./components/Textbox"
 import Button from "./components/Button"
 import { useForm } from "react-hook-form"
 import { UserRequest } from "./api"
 import axios from "axios"
+import { useAuthAction, useAuthStore } from "../../store"
 
 function Login() {
   const {
@@ -12,10 +13,16 @@ function Login() {
     register,
   } = useForm<UserRequest>()
 
+  const navigate = useNavigate()
+  const setId = useAuthAction().setId
+  const setUsername = useAuthAction().setUsername
+
   const onSubmit = (req: UserRequest) => {
-    axios.get(`http://localhost:1323/stimaGPT/User?username=${req.username}&password${req.password}`)
+    axios.get(`http://localhost:5000/stimaGPT/User?username=${req.username}&password=${req.password}`)
     .then((res) => {
-      console.log(res.data)
+      setId(res.data._id)
+      setUsername(res.data.UserName)
+      navigate("/")
     })
     .catch((err) => {
       console.log(err)

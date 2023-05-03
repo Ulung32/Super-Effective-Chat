@@ -72,7 +72,6 @@ func GetAnswers(c echo.Context) error{
 	if(classificationQuery == "1"){
 		index, similarity := Processor.QuerySearch(strings.ToLower(Message.Method), strings.ToLower(Message.Query))
 		if(similarity > 90){
-			// var result, _ = json.Marshal([]Models.Result{{200, asu}})
 			_, err := coll.InsertOne(ctx, models.Chat{
 				ID : primitive.NewObjectID(),
 				HistoryId: hisId,

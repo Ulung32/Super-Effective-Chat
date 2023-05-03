@@ -2,17 +2,24 @@ import { useQuery } from "@tanstack/react-query"
 import HistoryItem from "./HistoryItem"
 import { getHistoryByIdUser } from "../api"
 import CreateHistoryDialog from "./CreateHistoryDialog"
+import { useEffect } from "react"
+import { useChatStore } from "../../../store"
 
 type ListHistoryProps = {
   idUSer: string
 }
 
 function ListHistory({idUSer}: ListHistoryProps) {
+  const histories = useChatStore((state) => state.histories)
 
-  const { data } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ["get-history-by-id-user", idUSer],
     queryFn: () => getHistoryByIdUser(idUSer)
   })
+
+  useEffect(() => {
+    refetch()
+  }, [histories])
 
   return (
     <div className='w-full text-center h-[60vh] px-8 pt-4'>
@@ -27,18 +34,10 @@ function ListHistory({idUSer}: ListHistoryProps) {
           </button>
         }/>
         <div className="max-h-[50vh] mt-1 overflow-y-scroll scroll">
-            <HistoryItem name="Pencarian makanan" id="cerjh"/>
-            <HistoryItem name="Apa itu" id="cerjh"/>
-            <HistoryItem name="Ibukota Indonesia" id="cerjh"/>
-            <HistoryItem name="Kondisi ITB" id="cerjh"/>
-            <HistoryItem name="cerj feriobf eriofn erf eriufkrjenf reifher i  h i" id="cerjh"/>
-            <HistoryItem name="cerj feriobf eriofn erf eriufkrjenf reifher i  h i" id="cerjh"/>
-            <HistoryItem name="cerj feriobf eriofn erf eriufkrjenf reifher i  h i" id="cerjh"/>
-            <HistoryItem name="cerj feriobf eriofn erf eriufkrjenf reifher i  h i" id="cerjh"/>
-            <HistoryItem name="cerj feriobf eriofn erf eriufkrjenf reifher i  h i" id="cerjh"/>
-            <HistoryItem name="cerj feriobf eriofn erf eriufkrjenf reifher i  h i" id="cerjh"/>
-            <HistoryItem name="cerj feriobf eriofn erf eriufkrjenf reifher i  h i" id="cerjh"/>
-            <HistoryItem name="cerj feriobf eriofn erf eriufkrjenf reifher i  h i" id="cerjh"/>
+          {
+            data?.data.map((el: any) => 
+              <HistoryItem name={el.name} id={el._id}/>)
+          }
         </div>
     </div>
   )

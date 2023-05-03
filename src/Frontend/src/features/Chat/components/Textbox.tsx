@@ -6,7 +6,7 @@ import { UseFormRegister} from "react-hook-form"
 type TextboxProps = InputHTMLAttributes<HTMLInputElement> & {
     label?: string
     className?: string
-    name: "idUser" | "name",
+    name: "userId" | "name",
     register: UseFormRegister<HistoryRequest> 
 }
 

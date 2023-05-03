@@ -46,16 +46,17 @@ func CreateUser(c echo.Context) error {
 
 	var table = models.MongoCollection("User", client)
 
-	_, errInsert := table.InsertOne(ctx, models.User{
+	var newUser = models.User{
 		ID: primitive.NewObjectID(),
 		UserName : user.UserName,
 		Password:  user.Password,
-	})
+	}
+	_, errInsert := table.InsertOne(ctx, newUser)
 
 	if errInsert != nil {
-		fmt.Println("Error Create User")
+		return c.String(http.StatusInternalServerError, "Server Error")
 	}
-	return c.String(http.StatusOK, "Succesfully created")
+	return c.JSON(http.StatusOK, newUser)
 }
 
 func GetUser(c echo.Context) error {
@@ -80,8 +81,8 @@ func GetUser(c echo.Context) error {
 		if err := cursor.Decode(&userTemp); err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println(userTemp)
 		if(userTemp.UserName == username){
+			fmt.Println(userTemp)
 			if(userTemp.Password == password){
 				return c.JSON(http.StatusOK, userTemp)
 			}else{

@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Textbox from "./components/Textbox"
 import Button from "./components/Button"
 import { useForm } from "react-hook-form"
 import { UserRequest, createUser } from "./api"
 import { useMutation } from "@tanstack/react-query"
+import { useAuthAction } from "../../store"
 
 function Login() {
   const {
@@ -12,14 +13,21 @@ function Login() {
     register,
   } = useForm<UserRequest>()
 
+  const navigate = useNavigate()
+
+  const setId = useAuthAction().setId
+  const setUsername = useAuthAction().setUsername
+
   const mutation = useMutation({
     mutationFn: createUser
   })
 
   const onSubmit = async (req: UserRequest) => {
     try {
-      const res = await mutation.mutate(req)
-      console.log(res)
+      const res = await mutation.mutateAsync(req)
+      setId(res.data._id)
+      setUsername(res.data.UserName)
+      navigate("/")
     } catch (err) {
       console.log(err)
     }

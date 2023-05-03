@@ -7,7 +7,7 @@ export type UserRequest = {
     password: string
 }
 
-const createUser = (data: UserRequest) => axios.post(`http://localhost:1323/stimaGPT/User`, data)
+const createUser = (data: UserRequest) => axios.post(`http://localhost:5000/stimaGPT/User`, data)
 
 
 export {createUser}

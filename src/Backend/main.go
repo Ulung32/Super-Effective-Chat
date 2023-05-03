@@ -13,6 +13,7 @@ func main() {
 	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+	e.Use(middleware.CORS())
 	
 	// controller.Processor.Query = "Apa Mata Kuliah paling seru di semester 4"
 
