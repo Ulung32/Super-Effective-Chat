@@ -1,10 +1,11 @@
-package regex
+package main
 
 import (
 	"Backend/feature"
 	"fmt"
-	"log"
+	// "log"
 	"regexp"
+	"strings"
 )
 
 func getDateQuery (query string) string {
@@ -14,11 +15,14 @@ func getDateQuery (query string) string {
 	return match
 }
 
-func isDateQuery(query string) bool {
+func isDateQuery(query string) (bool, bool) {
+	dateFixedRegex := "(day|date|Day|Date)"
 	date := "\\b([0-2]?[0-9]|3[01])[./ -]([0]?[1-9]|1[012])[./ -]((19|20)\\d{2})\\b|\\b([0-2]?[0-9]|3[01]) (January|February|March|April|May|June|July|August|September|October|November|December) ((19|20)\\d{2})\\b"
 	re := regexp.MustCompile(date)
+	reFixed := regexp.MustCompile(dateFixedRegex)
     match := re.MatchString(query)
-	return match 
+	fixedMatch := reFixed.MatchString(query)
+	return match, fixedMatch
 }
 
 func getMathOperatorQuery(query string) string {
@@ -28,11 +32,14 @@ func getMathOperatorQuery(query string) string {
 	return match
 }
 
-func isMathOprQuery(query string) bool {
+func isMathOprQuery(query string) (bool, bool) {
+	equationFixedRegex := "(equation|Equation)"
 	mathOpr := "[([{\\s]*\\d+\\s*[)\\]}]*\\s*[+\\-*/]\\s*[([{\\s]*\\d+\\s*[)\\]}]*(\\s*[+\\-*/]\\s*[([{\\s]*\\d+\\s*[)\\]}]*)*"
 	re := regexp.MustCompile(mathOpr)
+	reFixed := regexp.MustCompile(equationFixedRegex)
     match := re.MatchString(query)
-	return match
+	fixedMatch := reFixed.MatchString(query)
+	return match, fixedMatch
 }
 func isAddQuestionQuery(query string) bool {
 	addQuestion := "tambah pertanyaan .* dengan jawaban .*"
@@ -47,33 +54,54 @@ func isDeleteQuestionQuery(query string) bool {
 	return match
 }
 func QueryClassification (query string) string {
-	if(isDateQuery(query)){
-		date := getDateQuery(query)
-		fmt.Println(date)
-		day, err := feature.GetDay(date)
-		if(err != nil){
-			log.Fatal(err)
+	questions := strings.Split(query, "?")
+	var answer string;
+	for _, question := range questions{
+		if(question != ""){
+			fmt.Println("This is the question", question)
+			tempAnswer := ""
+			dateMatch, commandDateMatch := isDateQuery(question)
+			equationMatch, commandEquationMatch := isMathOprQuery(question)
+			if((commandDateMatch || dateMatch) && !commandEquationMatch){
+				if(dateMatch){
+					date := getDateQuery(question)
+					fmt.Println("This is date", date)
+					day, err := feature.GetDay(date)
+					if(err != nil){
+						tempAnswer = "Invalid Date\n"
+					}else{
+						tempAnswer = fmt.Sprintf("Date %s : %s\n", date, day)
+					}
+				}else{
+					tempAnswer = "Invalid Date\n"
+				}
+			}else if (commandEquationMatch || equationMatch) {
+				if(equationMatch){
+					mathematicalExpression := getMathOperatorQuery(question)
+					fmt.Println("This is mathematical expression", mathematicalExpression)
+					result, err := feature.MathematicalOperationSolver(mathematicalExpression)
+					if(err != nil){
+						tempAnswer = "Invalid Syntax\n"
+					}else{
+						tempAnswer = fmt.Sprintf("The result of the equation is %.3f\n", result)
+					}
+				}else{
+					tempAnswer = "Invalid Syntax\n"
+				}
+			}else if(isAddQuestionQuery(question)){
+				return "4"
+			}else if(isDeleteQuestionQuery(question)){
+				return "5"
+			}else{
+				return "1"
+			}
+			answer = answer + tempAnswer
 		}
-		answer := fmt.Sprintf("Date %s : %s", date, day)
-		return answer
-	}else if (isMathOprQuery(query)) {
-		mathematicalExpression := getMathOperatorQuery(query)
-		fmt.Println(mathematicalExpression)
-		result, err := feature.MathematicalOperationSolver(mathematicalExpression)
-		if(err != nil){
-			log.Fatal(err)
-		}
-		answer := fmt.Sprintf("The result of the equation is %.3f", result)
-		return answer
-	}else if(isAddQuestionQuery(query)){
-		return "4"
-	}else if(isDeleteQuestionQuery(query)){
-		return "5"
-	}else{
-		return "1"
 	}
+	return answer
 }
-// func main(){
-// 	query := "What is the day of 1 May 2023"
-// 	fmt.Println(QueryClassification(query))
-// }
+
+func main(){
+	query := "equation 30/02/2023 ? Day of 4/5/2023? Day 30/02/2023?"
+	fmt.Println(QueryClassification(query))
+}
