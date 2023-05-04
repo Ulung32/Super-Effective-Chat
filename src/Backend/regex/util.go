@@ -53,55 +53,94 @@ func isDeleteQuestionQuery(query string) bool {
     match := re.MatchString(query)
 	return match
 }
-func QueryClassification (query string) string {
+
+func SplitQuestion(query string) []string {
 	questions := strings.Split(query, "?")
-	var answer string;
-	for _, question := range questions{
-		if(question != ""){
-			fmt.Println("This is the question", question)
-			tempAnswer := ""
-			dateMatch, commandDateMatch := isDateQuery(question)
-			equationMatch, commandEquationMatch := isMathOprQuery(question)
-			if((commandDateMatch || dateMatch) && !commandEquationMatch){
-				if(dateMatch){
-					date := getDateQuery(question)
-					fmt.Println("This is date", date)
-					day, err := feature.GetDay(date)
-					if(err != nil){
-						tempAnswer = "Invalid Date\n"
-					}else{
-						tempAnswer = fmt.Sprintf("Date %s : %s\n", date, day)
-					}
-				}else{
-					tempAnswer = "Invalid Date\n"
-				}
-			}else if (commandEquationMatch || equationMatch) {
-				if(equationMatch){
-					mathematicalExpression := getMathOperatorQuery(question)
-					fmt.Println("This is mathematical expression", mathematicalExpression)
-					result, err := feature.MathematicalOperationSolver(mathematicalExpression)
-					if(err != nil){
-						tempAnswer = "Invalid Syntax\n"
-					}else{
-						tempAnswer = fmt.Sprintf("The result of the equation is %.3f\n", result)
-					}
-				}else{
-					tempAnswer = "Invalid Syntax\n"
-				}
-			}else if(isAddQuestionQuery(question)){
-				return "4"
-			}else if(isDeleteQuestionQuery(question)){
-				return "5"
+	return questions
+}
+func QueryClassification (query string) string {
+	// var answer string;
+	// for _, question := range questions{
+	// 	if(question != ""){
+	// 		fmt.Println("This is the question", question)
+	// 		tempAnswer := ""
+	// 		dateMatch, commandDateMatch := isDateQuery(question)
+	// 		equationMatch, commandEquationMatch := isMathOprQuery(question)
+	// 		if((commandDateMatch || dateMatch) && !commandEquationMatch){
+	// 			if(dateMatch){
+	// 				date := getDateQuery(question)
+	// 				fmt.Println("This is date", date)
+	// 				day, err := feature.GetDay(date)
+	// 				if(err != nil){
+	// 					tempAnswer = "Invalid Date\n"
+	// 				}else{
+	// 					tempAnswer = fmt.Sprintf("Date %s : %s\n", date, day)
+	// 				}
+	// 			}else{
+	// 				tempAnswer = "Invalid Date\n"
+	// 			}
+	// 		}else if (commandEquationMatch || equationMatch) {
+	// 			if(equationMatch){
+	// 				mathematicalExpression := getMathOperatorQuery(question)
+	// 				fmt.Println("This is mathematical expression", mathematicalExpression)
+	// 				result, err := feature.MathematicalOperationSolver(mathematicalExpression)
+	// 				if(err != nil){
+	// 					tempAnswer = "Invalid Syntax\n"
+	// 				}else{
+	// 					tempAnswer = fmt.Sprintf("The result of the equation is %.3f\n", result)
+	// 				}
+	// 			}else{
+	// 				tempAnswer = "Invalid Syntax\n"
+	// 			}
+	// 		}else if(isAddQuestionQuery(question)){
+	// 			return "4"
+	// 		}else if(isDeleteQuestionQuery(question)){
+	// 			return "5"
+	// 		}else{
+	// 			return "1"
+	// 		}
+	// 		answer = answer + tempAnswer
+	// 	}
+	// }
+	// return answer
+	dateMatch, commandDateMatch := isDateQuery(query)
+	equationMatch, commandEquationMatch := isMathOprQuery(query)
+	if((commandDateMatch || dateMatch) && !commandEquationMatch){
+		if(dateMatch){
+			date := getDateQuery(query)
+			fmt.Println("This is date", date)
+			day, err := feature.GetDay(date)
+			if(err != nil){
+				return "Invalid Date\n"
 			}else{
-				return "1"
+				return fmt.Sprintf("Date %s : %s\n", date, day)
 			}
-			answer = answer + tempAnswer
+		}else{
+			return "Invalid Date\n"
 		}
+	}else if (commandEquationMatch || equationMatch) {
+		if(equationMatch){
+			mathematicalExpression := getMathOperatorQuery(query)
+			fmt.Println("This is mathematical expression", mathematicalExpression)
+			result, err := feature.MathematicalOperationSolver(mathematicalExpression)
+			if(err != nil){
+				return "Invalid Syntax\n"
+			}else{
+				return fmt.Sprintf("The result of the equation is %.3f\n", result)
+			}
+		}else{
+			return "Invalid Syntax\n"
+		}
+	}else if(isAddQuestionQuery(query)){
+		return "4"
+	}else if(isDeleteQuestionQuery(query)){
+		return "5"
+	}else{
+		return "1"
 	}
-	return answer
 }
 
-func main(){
-	query := "equation 30/02/2023 ? Day of 4/5/2023? Day 30/02/2023?"
-	fmt.Println(QueryClassification(query))
-}
+// func main(){
+// 	query := "equation 30/02/2023 ? Day of 4/5/2023? Day 30/02/2023?"
+// 	fmt.Println(QueryClassification(query))
+// }
