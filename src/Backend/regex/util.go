@@ -1,8 +1,9 @@
-package main
+package regex
 
 import (
 	"Backend/feature"
 	"fmt"
+
 	// "log"
 	"regexp"
 	"strings"
@@ -55,8 +56,16 @@ func isDeleteQuestionQuery(query string) bool {
 }
 
 func SplitQuestion(query string) []string {
-	questions := strings.Split(query, "?")
-	return questions
+	sep := []string{"?", "!", "\n"}
+	question := strings.FieldsFunc(query, func(r rune) bool {
+		for _, s := range sep {
+			if r == []rune(s)[0] {
+				return true
+			}
+		}
+		return false
+	})
+	return question
 }
 func QueryClassification (query string) string {
 	// var answer string;
@@ -142,5 +151,9 @@ func QueryClassification (query string) string {
 
 // func main(){
 // 	query := "equation 30/02/2023 ? Day of 4/5/2023? Day 30/02/2023?"
-// 	fmt.Println(QueryClassification(query))
+// 	questions := SplitQuestion(query)
+// 	for i := 0; i < len(questions); i++{
+// 		fmt.Println(QueryClassification(questions[i]))
+// 	}
+	
 // }
