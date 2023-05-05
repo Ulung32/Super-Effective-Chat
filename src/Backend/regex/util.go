@@ -120,12 +120,12 @@ func QueryClassification (query string) string {
 			fmt.Println("This is date", date)
 			day, err := feature.GetDay(date)
 			if(err != nil){
-				return "Invalid Date\n"
+				return "Invalid Date"
 			}else{
-				return fmt.Sprintf("Date %s : %s\n", date, day)
+				return fmt.Sprintf("Date %s : %s", date, day)
 			}
 		}else{
-			return "Invalid Date\n"
+			return "Invalid Date"
 		}
 	}else if (commandEquationMatch || equationMatch) {
 		if(equationMatch){
@@ -133,12 +133,12 @@ func QueryClassification (query string) string {
 			fmt.Println("This is mathematical expression", mathematicalExpression)
 			result, err := feature.MathematicalOperationSolver(mathematicalExpression)
 			if(err != nil){
-				return "Invalid Syntax\n"
+				return "Invalid Syntax"
 			}else{
-				return fmt.Sprintf("The result of the equation is %.3f\n", result)
+				return fmt.Sprintf("The result of the equation is %.3f", result)
 			}
 		}else{
-			return "Invalid Syntax\n"
+			return "Invalid Syntax"
 		}
 	}else if(isAddQuestionQuery(query)){
 		return "4"
