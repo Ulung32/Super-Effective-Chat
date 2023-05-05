@@ -18,7 +18,7 @@ function DropDownAccount({ trigger }: DropDownAccountProps) {
             </DropdownMenu.Trigger>
 
             <DropdownMenu.Portal>
-                <DropdownMenu.Content className='p-4 rounded-xl bg-yellow-200'>
+                <DropdownMenu.Content className='p-4 rounded-xl bg-yellow-200 absolute bottom-5 md:static z-20'>
                     <DropdownMenu.Item className='flex items-center outline-none p-2 rounded-xl hover:bg-yellow-300'>
                         <span className='mr-2 my-1'>
                             <CiCircleQuestion size="24"/>

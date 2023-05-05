@@ -37,6 +37,7 @@ type ChatState = {
     histories: History[]
     qnas: QnA[]
     algo: string
+    isOpenSidebar: boolean
 
     actions: {
         setIdHistorySelected: (idHistorySelected: string) => void
@@ -44,6 +45,7 @@ type ChatState = {
         setHistories: (histories: History[]) => void
         setAlgo: (algo: string) => void
         setQnas: (qnas: QnA[]) => void
+        setIsOpenSidebar: (isOpenSidebar: boolean) => void
     }
 }
 
@@ -53,6 +55,7 @@ export const useChatStore = create<ChatState>((set) => ({
     histories: [],
     qnas: [],
     algo: "kmp",        
+    isOpenSidebar: false,
 
     actions: {
         setIdHistorySelected(idHistorySelected){
@@ -69,6 +72,9 @@ export const useChatStore = create<ChatState>((set) => ({
         },
         setQnas(qnas) {
             set({qnas})
+        },
+        setIsOpenSidebar(isOpenSidebar) {
+            set({isOpenSidebar})
         },
     }
 }))

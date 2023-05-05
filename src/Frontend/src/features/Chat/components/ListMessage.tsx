@@ -11,7 +11,7 @@ type ListMessageProps = {
 function ListMessage({ idHistory }: ListMessageProps) {
   const chats = useChatStore((state) => state.chats)
 
-  const { data, refetch, isLoading } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ["get-chat-by-id-history", idHistory],
     queryFn: () => getChatByIdHistory(idHistory)
   })
@@ -22,10 +22,7 @@ function ListMessage({ idHistory }: ListMessageProps) {
 
   return (
     <div className="h-[100vh] overflow-y-scroll pb-20">
-      { isLoading ? 
-        <p>ciuehiufhe</p>
-        :
-        data?.data.map((msg: any) => (
+      {data?.data.map((msg: any) => (
           <MessageItem message={msg.chat} isBot={msg.isbot} />
         ))
       }

@@ -52,8 +52,8 @@ function MessageWriter() {
   }
 
   return (
-    <div className="w-[80vw] h-24 absolute bottom-0 flex items-center justify-center">
-        <div className="w-[65%] p-4 bg-zinc-950 flex justify-between items-center rounded-3xl">
+    <div className="w-full md:w-[80vw] px-2 h-24 absolute bottom-0 flex items-center justify-center">
+        <div className="w-full md:w-[65%] p-4 bg-zinc-950 flex justify-between items-center rounded-3xl">
           <form className="w-full flex justify-between" onSubmit={handleSubmit(onSubmit)}>
             <input type="text" className="w-[90%] bg-zinc-950 text-white outline-none" {...register("message")}/>
             <button type="submit" className="w-8 h-8 rounded-xl bg-yellow-200 flex items-center justify-center">
