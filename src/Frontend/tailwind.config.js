@@ -7,7 +7,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'sono': ['"Sono"', 'sans-serif']
+        'sono': ['"Sono"', 'sans-serif'],
+        'sigma': ['"Sigmar One"', 'sans-serif']
       }
     },
   },

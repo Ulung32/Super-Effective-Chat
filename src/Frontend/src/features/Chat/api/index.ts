@@ -18,3 +18,5 @@ export const getChatByIdHistory = (id: string) => axios.get(`http://localhost:50
 export const getAnswer = (data: ChatRequest) => axios.post('http://localhost:5000/stimaGPT/chat', data)
 
 export const createHistory = (data: HistoryRequest) => axios.post('http://localhost:5000/stimaGPT/history', data)
+
+export const deleteHistory = (id: string) => axios.delete(`http://localhost:5000/stimaGPT/history?historyID=${id}`)

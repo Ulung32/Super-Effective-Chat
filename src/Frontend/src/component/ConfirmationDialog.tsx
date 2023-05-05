@@ -1,6 +1,7 @@
 import * as AlertDialog from "@radix-ui/react-alert-dialog"
 import { ReactNode, useState } from "react"
 import Button from "./Button"
+import toast from "react-hot-toast"
 
 type ConfirmationDialogProps = {
   id: string
@@ -29,8 +30,11 @@ function ConfirmationDialog({trigger, label, onConfirm, id}: ConfirmationDialogP
                         label="Delete"
                         className="bg-red-700 mr-4"
                         onClick={() =>
-                          onConfirm(id).then(() => {
+                          onConfirm(id).then((res) => {
                             setOpen(false)
+                            toast.success("Berhasil mebghapus data")
+                          }).catch((err) => {
+                            toast.error("Gagal menghapus data")
                           })
                         }
                       />

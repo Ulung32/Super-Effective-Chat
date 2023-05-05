@@ -86,13 +86,24 @@ func GetAnswers(c echo.Context) error{
 			
 		}else if(classificationQuery == "4"){
 			question, answer := parseQuery(questions[i])
+			fmt.Println(answer)
 
 			qnacoll := models.MongoCollection("QnA", client)
 
-			_, similarity := Processor.QuerySearch(Message.Method, question)
+			index, similarity := Processor.QuerySearch(Message.Method, question)
 
 			if(similarity > 90){
-				answers = answers + "Pertanyaan serupa sudah ada di database"
+				answers = answers + "Pertanyaan serupa sudah ada di database! sukses mengupdate jawaban menjadi " + answer
+				_, cancel := context.WithCancel(context.Background())
+				defer cancel()
+
+				fmt.Println(Processor.QnAList[index].ID)
+				filter := bson.M{"_id": Processor.QnAList[index].ID}
+				update := bson.M{"$set": bson.M{"answer": answer}}
+				_, err := qnacoll.UpdateOne(context.Background(), filter, update)
+				if err != nil {
+					log.Fatal(err)
+				}
 			}else{
 				ctx, cancel := context.WithCancel(context.Background())
 				defer cancel()

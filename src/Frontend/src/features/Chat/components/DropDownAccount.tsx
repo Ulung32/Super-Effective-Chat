@@ -2,12 +2,15 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { ReactNode } from "react"
 import { Link } from 'react-router-dom';
 import { CiCircleQuestion, CiCircleRemove } from "react-icons/ci"
+import { useAuthAction } from '../../../store';
 
 type DropDownAccountProps = {
     trigger: ReactNode
 }
 
 function DropDownAccount({ trigger }: DropDownAccountProps) {
+    const actions = useAuthAction()
+
     return (
         <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild>
@@ -26,7 +29,10 @@ function DropDownAccount({ trigger }: DropDownAccountProps) {
                         <span className='mr-2 my-1'>
                             <CiCircleRemove size="24"/>
                         </span>
-                        <Link to="/logout">Logout</Link>
+                        <button onClick={() => {
+                            actions.setId("")
+                            actions.setUsername("")
+                        }}>Logout</button>
                     </DropdownMenu.Item>
                     <DropdownMenu.Arrow className='fill-none' />
                 </DropdownMenu.Content>

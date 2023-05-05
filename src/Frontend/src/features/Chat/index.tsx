@@ -5,6 +5,7 @@ import ListAlgo from "./components/ListAlgo"
 import ListHistory from "./components/ListHistory"
 import ListMessage from "./components/ListMessage"
 import MessageWriter from "./components/MessageWriter"
+import Logo from "./components/Logo"
 
 function Chat() {
   const idUser = useAuthStore((state) => state.id)
@@ -23,7 +24,12 @@ function Chat() {
         <Account/>
       </div>
       <div className="w-4/5 bg-zinc-900">
-        <ListMessage idHistory={idHistorySelected}/>
+        {
+          idHistorySelected == "" ? 
+          <Logo/>
+          :
+          <ListMessage idHistory={idHistorySelected}/>
+        }
         <MessageWriter />
       </div>
     </div>

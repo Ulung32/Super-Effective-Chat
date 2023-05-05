@@ -8,6 +8,7 @@ import { HistoryRequest, createHistory } from "../api"
 import { useAuthStore, useChatAction, useChatStore } from "../../../store"
 import Textbox from "./Textbox"
 import { History } from "@/models"
+import toast from "react-hot-toast"
 
 type CreateHistoryDialogProps = {
   trigger: ReactNode
@@ -42,8 +43,9 @@ function CreateHistoryDialog({trigger}: CreateHistoryDialogProps) {
         id: res.data._id
       }
       setHistories([...histories, historyTemp])
+      toast.success("Berhasil membuat history")
     } catch (err) {
-      console.log(err)
+      toast.error("Gagl membuat history")
     }
   }
 

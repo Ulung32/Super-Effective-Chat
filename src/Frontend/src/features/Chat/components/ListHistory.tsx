@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import HistoryItem from "./HistoryItem"
 import { getHistoryByIdUser } from "../api"
 import CreateHistoryDialog from "./CreateHistoryDialog"

@@ -20,7 +20,7 @@ func main() {
 	// Routes
 	e.POST("/stimaGPT", controller.CreateQnA)
 	e.GET("/stimaGPT", controller.GetListQnA)
-	e.DELETE("/stimaGPT/delete/", controller.DelQnA)
+	e.DELETE("/stimaGPT/delete", controller.DelQnA)
 
 	e.POST("/stimaGPT/User", controller.CreateUser)
 	e.GET("/stimaGPT/User", controller.GetUser)

@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 import { UserRequest } from "./api"
 import axios from "axios"
 import { useAuthAction, useAuthStore } from "../../store"
+import toast from "react-hot-toast"
 
 function Login() {
   const {
@@ -22,9 +23,10 @@ function Login() {
       const res = await axios.get(`http://localhost:5000/stimaGPT/User?username=${req.username}&password=${req.password}`)
       setId(res.data._id)
       setUsername(res.data.UserName)
+      toast.success("Berhasil login")
       navigate("/")
     }catch(err){
-      console.log(err)
+      toast.error("Gagal login")
     }
   };
 

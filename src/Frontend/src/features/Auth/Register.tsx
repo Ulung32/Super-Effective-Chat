@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 import { UserRequest, createUser } from "./api"
 import { useMutation } from "@tanstack/react-query"
 import { useAuthAction } from "../../store"
+import toast from "react-hot-toast"
 
 function Login() {
   const {
@@ -27,9 +28,10 @@ function Login() {
       const res = await mutation.mutateAsync(req)
       setId(res.data._id)
       setUsername(res.data.UserName)
+      toast.success("Berhasil membuat akun")
       navigate("/")
     } catch (err) {
-      console.log(err)
+      toast.error("Gagal membuat akun")
     }
   };
   

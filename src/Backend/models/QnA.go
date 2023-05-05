@@ -8,7 +8,7 @@ type QnA struct {
 	Answer   string `bson:"answer" json:"answer`
 }
 
-type Result struct {
-	Code    int    `json:"code"`
-	Message string `json:"message"`
-}
+// type Result struct {
+// 	Code    int    `json:"code"`
+// 	Message string `json:"message"`
+// }

@@ -7,6 +7,7 @@ import Textbox from "./Textbox"
 import { useMutation } from "@tanstack/react-query"
 import { AiOutlineClose } from "react-icons/ai"
 import { useChatAction, useChatStore } from "../../../store"
+import toast from "react-hot-toast"
 
 type AddQuestionDialogProps = {
   trigger: ReactNode
@@ -33,8 +34,9 @@ function AddQuestionDialog({trigger}: AddQuestionDialogProps) {
         question: res.data.Question,
         id: res.data._id
       }])
+      toast.success("Berhasil membuat QnA")
     } catch (err) {
-      console.log(err)
+      toast.error("Gagl membuat QnA")
     }
   }
 

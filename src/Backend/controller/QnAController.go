@@ -96,21 +96,22 @@ func GetListQnA(c echo.Context) error{
 }
 
 func DelQnA (c echo.Context) error{
+	id := c.QueryParam("id")
+
+	fmt.Println(id)
+	fmt.Println("jhebf ewyfgwe fwef euyveygfregreufyr")
 	GetQnA()
 
 	// fmt.Println(Processor.QnAList)
 	// for i := 0; i < len(Processor.QnAList); i++{
 	// 	fmt.Println(Processor.QnAList[i].ID.Hex())
 	// }
-	id := c.QueryParam("id")
-
 	client := models.MongoConnect()
 	defer client.Disconnect(context.TODO())
 
 	coll := models.MongoCollection("QnA", client)
 	
 	objID, err := primitive.ObjectIDFromHex(id)
-	fmt.Println(id)
 	fmt.Println(objID)
 	if err != nil {
 		return c.String(http.StatusBadRequest, "Invalid ID")
