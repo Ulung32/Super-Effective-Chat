@@ -20,7 +20,7 @@ function Login() {
 
   const onSubmit = async (req: UserRequest) => {
     try {
-      const res = await axios.get(`http://localhost:5000/stimaGPT/User?username=${req.username}&password=${req.password}`)
+      const res = await axios.get(`https://secchatbot-production.up.railway.app/stimaGPT/User?username=${req.username}&password=${req.password}`)
       setId(res.data._id)
       setUsername(res.data.UserName)
       toast.success("Berhasil login")

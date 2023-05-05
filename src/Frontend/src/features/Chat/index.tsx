@@ -12,9 +12,6 @@ function Chat() {
   const userName = useAuthStore((state) => state.username)
   const idHistorySelected = useChatStore((state) => state.idHistorySelected)
 
-  useEffect(() => {
-    console.log(idUser, userName)
-  }, [])
 
   return (
     <div className="w-[100wh] h-[100vh] flex font-sono font-regular overflow-y-hidden">

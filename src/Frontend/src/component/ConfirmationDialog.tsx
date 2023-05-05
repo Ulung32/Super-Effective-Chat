@@ -32,7 +32,7 @@ function ConfirmationDialog({trigger, label, onConfirm, id}: ConfirmationDialogP
                         onClick={() =>
                           onConfirm(id).then((res) => {
                             setOpen(false)
-                            toast.success("Berhasil mebghapus data")
+                            toast.success("Berhasil menghapus data")
                           }).catch((err) => {
                             toast.error("Gagal menghapus data")
                           })
