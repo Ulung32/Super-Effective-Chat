@@ -11,6 +11,18 @@ type QueryProcessor struct {
 
 var Processor QueryProcessor
 
+func (p QueryProcessor) GetSimilarityList(query string) ([]float64) {
+	var similarity = make([]float64, 0)
+
+	for i:=0; i<len(p.QnAList); i++{
+		temp := algorithm.LevenshteinDistance(query, p.QnAList[i].Question)
+		similarity = append(similarity, temp)
+	}
+
+	return similarity
+}
+
+
 func (p QueryProcessor) QuerySearch(method, query string) (int, float64) {
 	// if(method == "kmp"){
 

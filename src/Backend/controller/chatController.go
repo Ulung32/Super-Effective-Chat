@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"sort"
 	"strings"
 
 	"github.com/labstack/echo/v4"
@@ -20,6 +21,7 @@ type message struct{
 	Method string
 }
 
+
 func parseQuery(query string) (string, string) {
     var x, y string
     i := strings.Index(query, "pertanyaan") + len("pertanyaan")
@@ -29,6 +31,31 @@ func parseQuery(query string) (string, string) {
         y = strings.TrimSpace(query[j+len("dengan jawaban"):])
     }
     return x, y
+}
+
+
+func getTop3Indexes(numbers []float64) []int {
+    var indexes []int
+
+    // Sorting slice in descending order
+    sort.Slice(numbers, func(i, j int) bool {
+        return numbers[i] > numbers[j]
+    })
+
+    // Getting the indexes of the top 3 elements
+    for i, n := range numbers {
+        if i == 3 {
+            break
+        }
+        for j, m := range numbers {
+            if n == m {
+                indexes = append(indexes, j)
+                break
+            }
+        }
+    }
+
+    return indexes
 }
 
 func GetAnswers(c echo.Context) error{
@@ -81,7 +108,15 @@ func GetAnswers(c echo.Context) error{
 			if(similarity > 90){
 				answers = answers  + Processor.QnAList[index].Answer
 			}else{
-				answers = answers + "tidak ada pertanyaan dalam database"
+				answers = answers + "tidak ada pertanyaan dalam database, mungkin maksud anda:\n"
+				similarity := Processor.GetSimilarityList(questions[i])
+				if(len(Processor.QnAList) > 3){
+					top3 := getTop3Indexes(similarity)
+					for j:=0; j<3; j++{
+						answers = answers + Processor.QnAList[top3[j]].Question	+ "\n"
+					}
+				}
+				answers = answers + "\n"
 			}
 			
 		}else if(classificationQuery == "4"){
@@ -143,7 +178,7 @@ func GetAnswers(c echo.Context) error{
 			answers = answers + classificationQuery
 		}
 		if(i < len(questions)-1){
-			answers = answers + ", "
+			answers = answers + "\n"
 		}
 		
 		

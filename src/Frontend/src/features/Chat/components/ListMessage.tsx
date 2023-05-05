@@ -27,7 +27,7 @@ function ListMessage({ idHistory }: ListMessageProps) {
         <p>ciuehiufhe</p>
         :
         data?.data.map((msg: any) => (
-          <MessageItem message={msg.chat} time="12.30" isBot={msg.isbot} />
+          <MessageItem message={msg.chat} isBot={msg.isbot} />
         ))
       }
     </div>
