@@ -1,9 +1,8 @@
-import { useChatAction, useChatStore } from "../../../store"
+import { useChatAction } from "../../../store"
 import { FiCheck } from "react-icons/fi"
 
 function ListAlgo() {
   const setAlgo = useChatAction().setAlgo
-  const algo = useChatStore((state) => state.algo)
 
   return (
     <div className='w-full h-[27vh] bg-zinc-800 mt-6 px-8 py-4'>
