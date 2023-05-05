@@ -3,8 +3,6 @@ package regex
 import (
 	"Backend/feature"
 	"fmt"
-
-	// "log"
 	"regexp"
 	"strings"
 )
@@ -68,50 +66,6 @@ func SplitQuestion(query string) []string {
 	return question
 }
 func QueryClassification (query string) string {
-	// var answer string;
-	// for _, question := range questions{
-	// 	if(question != ""){
-	// 		fmt.Println("This is the question", question)
-	// 		tempAnswer := ""
-	// 		dateMatch, commandDateMatch := isDateQuery(question)
-	// 		equationMatch, commandEquationMatch := isMathOprQuery(question)
-	// 		if((commandDateMatch || dateMatch) && !commandEquationMatch){
-	// 			if(dateMatch){
-	// 				date := getDateQuery(question)
-	// 				fmt.Println("This is date", date)
-	// 				day, err := feature.GetDay(date)
-	// 				if(err != nil){
-	// 					tempAnswer = "Invalid Date\n"
-	// 				}else{
-	// 					tempAnswer = fmt.Sprintf("Date %s : %s\n", date, day)
-	// 				}
-	// 			}else{
-	// 				tempAnswer = "Invalid Date\n"
-	// 			}
-	// 		}else if (commandEquationMatch || equationMatch) {
-	// 			if(equationMatch){
-	// 				mathematicalExpression := getMathOperatorQuery(question)
-	// 				fmt.Println("This is mathematical expression", mathematicalExpression)
-	// 				result, err := feature.MathematicalOperationSolver(mathematicalExpression)
-	// 				if(err != nil){
-	// 					tempAnswer = "Invalid Syntax\n"
-	// 				}else{
-	// 					tempAnswer = fmt.Sprintf("The result of the equation is %.3f\n", result)
-	// 				}
-	// 			}else{
-	// 				tempAnswer = "Invalid Syntax\n"
-	// 			}
-	// 		}else if(isAddQuestionQuery(question)){
-	// 			return "4"
-	// 		}else if(isDeleteQuestionQuery(question)){
-	// 			return "5"
-	// 		}else{
-	// 			return "1"
-	// 		}
-	// 		answer = answer + tempAnswer
-	// 	}
-	// }
-	// return answer
 	dateMatch, commandDateMatch := isDateQuery(query)
 	equationMatch, commandEquationMatch := isMathOprQuery(query)
 	if((commandDateMatch || dateMatch) && !commandEquationMatch){
@@ -148,12 +102,3 @@ func QueryClassification (query string) string {
 		return "1"
 	}
 }
-
-// func main(){
-// 	query := "equation 30/02/2023 ? Day of 4/5/2023? Day 30/02/2023?"
-// 	questions := SplitQuestion(query)
-// 	for i := 0; i < len(questions); i++{
-// 		fmt.Println(QueryClassification(questions[i]))
-// 	}
-	
-// }

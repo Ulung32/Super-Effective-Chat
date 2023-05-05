@@ -43,17 +43,10 @@ func BoyerMoore(text, pattern string) int {
 					j--;
 				}
 			}else{
-				// fmt.Println("This is current chat:", string(text[i]))
-				// fmt.Println("This is the text that is being search before:", text[i-m+1:i])
 				nextJump := checkNextJump(j, string(text[i]), pattern)
-				fmt.Println("This is next jump value : ", nextJump)
-				fmt.Println("This is next i marker before : ", i)
 				currentIndex = currentIndex + nextJump
 				i = currentIndex
-				fmt.Println("This is next i marker after : ", i)
-				// fmt.Println("This is the text that is being search after:", text[i-m+1:i+1])
 				j = m - 1;
-				fmt.Println("This is the length of text", n)
 				if test == 8{
 					break
 				}
@@ -63,13 +56,3 @@ func BoyerMoore(text, pattern string) int {
 		return -1;
 	}
 }
-
-// func main(){
-// 	// text := "a pattern matching algorithm"
-// 	text := "abacaabadcabacabaabb"
-// 	// pattern := "rithm"
-// 	pattern := "abacab"
-// 	fmt.Println("Start")
-// 	result := boyerMoore(text, pattern)
-// 	fmt.Println("This is the result: ", result)
-// }

@@ -4,7 +4,6 @@ import (
     "errors"
     "github.com/Knetic/govaluate"
     "math"
-	// "fmt"
 )
 
 func MathematicalOperationSolver(mathematicalExpression string) (float64, error) {
@@ -23,13 +22,3 @@ func MathematicalOperationSolver(mathematicalExpression string) (float64, error)
     }
     return result.(float64), nil
 }
-
-// func main() {
-// 	expression := "1+2+(3*5)/0"
-// 	result, status := MathematicalOperationSolver(expression)
-// 	if status != nil {
-// 		fmt.Println(status)
-// 	} else {
-// 		fmt.Println("This is the result", result)
-// 	}
-// }
