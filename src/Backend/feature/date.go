@@ -2,9 +2,7 @@ package feature
 
 import (
 	"time"
-	// "fmt"
 	"errors"
-	// "log"
 )
 
 func GetDay(dateString string) (string, error) {
@@ -23,12 +21,3 @@ func GetDay(dateString string) (string, error) {
 	day := date.Weekday().String()
 	return day, nil
 }
-
-// func main(){
-// 	date := "30/4/2023"
-// 	day, err := getDay(date)
-// 	if(err != nil){
-// 		log.Fatal(err)
-// 	}
-// 	fmt.Println(day)
-// }

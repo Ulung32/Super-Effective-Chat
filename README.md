@@ -36,10 +36,17 @@ String matching adalah teknik untuk mencocokkan suatu string atau pola dengan st
 ![Main Register Display](./assets/Register.jpg)
 
 ## How To Run
-
+>Go to this link to run <br>
+[tubes3-13521054.vercel.app](https://tubes3-13521054.vercel.app)
 
 ## Tech Stack
-
+* github.com/Knetic/govaluate v3.0.0+incompatible
+* github.com/agnivade/levenshtein v1.1.1
+* github.com/labstack/echo/v4 v4.10.2
+* go.mongodb.org/mongo-driver v1.11.4
+* go version go1.20.3 windows/amd64
+* React 18.2.0
+* TypeScript 4.3.0
 
 ## Author
 
