@@ -17,7 +17,7 @@ function Chat() {
 
   return (
     <div className="w-[100wh] h-[100vh] flex font-sono font-regular overflow-y-hidden">
-      <div className={clsx("w-64 absolute md:static md:w-1/5 bg-black text-slate-100 z-10 duration-300 overflow-hidden", {"w-0" : !isOpen})}>
+      <div className={clsx("absolute md:static md:w-1/5 bg-black text-slate-100 z-10 duration-300 overflow-hidden", {"w-0" : !isOpen, "w-64" : isOpen})}>
         <ListHistory idUSer={idUser}/>
         <ListAlgo />
         <Account/>
