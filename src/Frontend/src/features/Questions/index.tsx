@@ -56,7 +56,7 @@ function Questions() {
                   <ConfirmationDialog 
                     id={qna._id}
                     trigger={
-                      <span className="block w-9 h-9 rounded-xl hover:bg-yellow-200 hover:text-black flex justify-center items-center cursor-pointer">
+                      <span className="w-9 h-9 rounded-xl hover:bg-yellow-200 hover:text-black flex justify-center items-center cursor-pointer">
                         <IoTrashBinOutline size={24}/>
                       </span>
                     }

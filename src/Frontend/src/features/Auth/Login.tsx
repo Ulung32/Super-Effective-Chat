@@ -4,7 +4,7 @@ import Button from "./components/Button"
 import { useForm } from "react-hook-form"
 import { UserRequest } from "./api"
 import axios from "axios"
-import { useAuthAction, useAuthStore } from "../../store"
+import { useAuthAction } from "../../store"
 import toast from "react-hot-toast"
 
 function Login() {

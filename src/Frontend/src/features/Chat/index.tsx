@@ -1,4 +1,3 @@
-import { useEffect } from "react"
 import { useAuthStore, useChatStore } from "../../store"
 import Account from "./components/Account"
 import ListAlgo from "./components/ListAlgo"
@@ -9,7 +8,6 @@ import Logo from "./components/Logo"
 
 function Chat() {
   const idUser = useAuthStore((state) => state.id)
-  const userName = useAuthStore((state) => state.username)
   const idHistorySelected = useChatStore((state) => state.idHistorySelected)
 
 

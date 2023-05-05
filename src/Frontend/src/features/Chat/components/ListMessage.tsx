@@ -1,9 +1,8 @@
 import { useQuery } from "@tanstack/react-query"
 import MessageItem from "./MessageItem"
 import { getChatByIdHistory } from "../api"
-import { useChatAction, useChatStore } from "../../../store"
+import { useChatStore } from "../../../store"
 import { useEffect } from "react"
-import { Chat } from "../../../models"
 
 type ListMessageProps = {
   idHistory: string

@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useQuery } from "@tanstack/react-query"
 import HistoryItem from "./HistoryItem"
 import { getHistoryByIdUser } from "../api"
 import CreateHistoryDialog from "./CreateHistoryDialog"
@@ -25,7 +25,7 @@ function ListHistory({idUSer}: ListHistoryProps) {
     <div className='w-full text-center h-[60vh] px-8 pt-4'>
         <CreateHistoryDialog trigger={
           <button className="w-full flex items-center px-2 py-4 rounded-2xl bg-indigo-600 hover:bg-violet-500 group">
-            <span className="block w-8 h-8 flex justify-center items-center bg-indigo-500 text-white rounded-lg text-lg font-bold group-hover:bg-indigo-400">
+            <span className="w-8 h-8 flex justify-center items-center bg-indigo-500 text-white rounded-lg text-lg font-bold group-hover:bg-indigo-400">
               +
             </span>
             <span className="ml-4 text-lg">

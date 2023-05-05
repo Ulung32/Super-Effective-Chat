@@ -30,10 +30,10 @@ function ConfirmationDialog({trigger, label, onConfirm, id}: ConfirmationDialogP
                         label="Delete"
                         className="bg-red-700 mr-4"
                         onClick={() =>
-                          onConfirm(id).then((res) => {
+                          onConfirm(id).then(() => {
                             setOpen(false)
                             toast.success("Berhasil menghapus data")
-                          }).catch((err) => {
+                          }).catch(() => {
                             toast.error("Gagal menghapus data")
                           })
                         }
